@@ -25,7 +25,7 @@ function drawChart() {
 
   dataTable.addRows([
 {{#each .}}
-    ['{{project}}', '{{phase}}-{{goal}}', new Date({{start}}), new Date({{end}}) ],{{/each}}
+    ['{{project}}', 'phase:{{phase}} goal:{{goal}}', new Date({{start}}), new Date({{end}}) ],{{/each}}
   ]);
 
   var options = {

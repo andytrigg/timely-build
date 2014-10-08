@@ -20,7 +20,7 @@ public class TimelyBuildEventsExtension extends AbstractMavenLifecycleParticipan
     MavenExecutionRequest request = session.getRequest();
 
     ExecutionListener original = request.getExecutionListener();
-    BuildEventListener listener = new BuildEventListener(logFile(session));
+    BuildEventListener listener = new BuildEventListener(logFile(session), session);
     ExecutionListener chain = new ExecutionListenerChain(original, listener);
 
     request.setExecutionListener(chain);

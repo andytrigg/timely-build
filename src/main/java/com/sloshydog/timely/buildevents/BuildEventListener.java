@@ -19,6 +19,7 @@ import com.github.jknack.handlebars.*;
 import com.github.jknack.handlebars.context.*;
 import org.apache.maven.execution.AbstractExecutionListener;
 import org.apache.maven.execution.ExecutionEvent;
+import org.apache.maven.execution.MavenSession;
 import org.apache.maven.plugin.MojoExecution;
 
 import java.io.File;
@@ -33,11 +34,13 @@ import java.util.concurrent.ConcurrentHashMap;
 public class BuildEventListener extends AbstractExecutionListener {
 
     private final File output;
+    private final MavenSession mavenSession;
     private final Map<String, Long> startTimes = new ConcurrentHashMap<String, Long>();
     private final Map<String, Long> endTimes = new ConcurrentHashMap<String, Long>();
 
-    public BuildEventListener(File output) {
+    public BuildEventListener(File output, MavenSession mavenSession) {
         this.output = output;
+        this.mavenSession = mavenSession;
     }
 
     @Override
@@ -118,6 +121,16 @@ public class BuildEventListener extends AbstractExecutionListener {
         writer.close();
     }
 
+    public static class ReportContext {
+        MavenSession mavenSession;
+        List<Measure> measures;
+
+        public ReportContext(MavenSession mavenSession, List<Measure> measures) {
+
+            this.mavenSession = mavenSession;
+            this.measures = measures;
+        }
+    }
     public static class Measure implements Comparable<Measure> {
 
         String group;
