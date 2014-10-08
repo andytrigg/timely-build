@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        .measure {
+            position: relative;
+            background-color: blue;
+            white-space: nowrap;
+            height: 17px;
+        }
+
+        .test-test {
+            background-color: red;
+        }
+    </style>
+</head>
+<body>
+
+
+<script type="text/javascript" src="https://www.google.com/jsapi?autoload={'modules':[{'name':'visualization',
+       'version':'1','packages':['timeline']}]}"></script>
+<script type="text/javascript">
+google.setOnLoadCallback(drawChart);
+
+function drawChart() {
+  var container = document.getElementById('example1');
+
+  var chart = new google.visualization.Timeline(container);
+
+  var dataTable = new google.visualization.DataTable();
+
+  dataTable.addColumn({ type: 'string', id: 'Project' });
+  dataTable.addColumn({ type: 'string', id: 'Phase/Goal' });
+  dataTable.addColumn({ type: 'date', id: 'Start' });
+  dataTable.addColumn({ type: 'date', id: 'End' });
+
+  dataTable.addRows([
+{{#each .}}
+    ['{{project}}', '{{phase}}-{{goal}}', new Date({{start}}), new Date({{end}}) ],{{/each}}
+  ]);
+
+  var options = {
+  title: 'Toppings I Like On My Pizza',
+    timeline: { groupByRowLabel: false }
+  };
+
+  chart.draw(dataTable, options);
+}
+</script>
+<div id="example1" style="width: 900px; height: 180px;"></div>
+</body>
+</html>
