@@ -55,13 +55,6 @@
     </dependencies>
 
     <build>
-        <!--<extensions>-->
-            <!--<extension>-->
-                <!--<groupId>com.sloshydog</groupId>-->
-                <!--<artifactId>timely-build</artifactId>-->
-                <!--<version>1.0-SNAPSHOT</version>-->
-            <!--</extension>-->
-        <!--</extensions>-->
         <pluginManagement>
             <plugins>
                 <plugin>
