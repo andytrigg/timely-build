@@ -31,14 +31,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class BuildEventListener extends AbstractExecutionListener {
+public class TimelyBuildExecutionListener extends AbstractExecutionListener {
 
     private final File output;
     private final MavenSession mavenSession;
     private final Map<String, Long> startTimes = new ConcurrentHashMap<String, Long>();
     private final Map<String, Long> endTimes = new ConcurrentHashMap<String, Long>();
 
-    public BuildEventListener(File output, MavenSession mavenSession) {
+    public TimelyBuildExecutionListener(File output, MavenSession mavenSession) {
         this.output = output;
         this.mavenSession = mavenSession;
     }

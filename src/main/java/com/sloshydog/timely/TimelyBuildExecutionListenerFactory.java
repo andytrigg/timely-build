@@ -1,14 +1,4 @@
-package com.sloshydog.timely;
-
-import com.sloshydog.timely.buildevents.BuildEventListener;
-import org.apache.maven.execution.ExecutionListener;
-import org.apache.maven.execution.MavenSession;
-import org.codehaus.plexus.component.annotations.Component;
-
-import java.io.File;
-import java.util.Date;
-
-/*
+/**
  * Copyright (c) 2014. gigantiqandy@gmail.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,13 +13,23 @@ import java.util.Date;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.sloshydog.timely;
+
+import com.sloshydog.timely.buildevents.TimelyBuildExecutionListener;
+import org.apache.maven.execution.ExecutionListener;
+import org.apache.maven.execution.MavenSession;
+import org.codehaus.plexus.component.annotations.Component;
+
+import java.io.File;
+import java.util.Date;
+
 @Component(role = ExecutionListenerFactory.class)
 public class TimelyBuildExecutionListenerFactory implements ExecutionListenerFactory {
     private static final String DEFAULT_FILE_DESTINATION = "target/timeline-%d.html";
 
     @Override
     public ExecutionListener create(MavenSession mavenSession) {
-        return new BuildEventListener(logFile(mavenSession), mavenSession);
+        return new TimelyBuildExecutionListener(logFile(mavenSession), mavenSession);
     }
 
     private File logFile(MavenSession session) {

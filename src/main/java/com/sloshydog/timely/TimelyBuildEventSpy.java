@@ -16,23 +16,24 @@
 package com.sloshydog.timely;
 
 import org.apache.maven.AbstractMavenLifecycleParticipant;
-import org.apache.maven.execution.ExecutionListener;
-import org.apache.maven.execution.MavenExecutionRequest;
-import org.apache.maven.execution.MavenSession;
+import org.apache.maven.eventspy.AbstractEventSpy;
 import org.codehaus.plexus.component.annotations.Component;
-import org.codehaus.plexus.component.annotations.Requirement;
 
 @Component(role = AbstractMavenLifecycleParticipant.class, hint = "timelybuild")
-public class TimelyBuildExtension extends AbstractMavenLifecycleParticipant {
-
-    @Requirement
-    private ExecutionListenerFactory executionListenerFactory;
+public class TimelyBuildEventSpy extends AbstractEventSpy {
 
     @Override
-    public void afterProjectsRead(MavenSession session) {
-        MavenExecutionRequest request = session.getRequest();
-        ExecutionListener executionListener = executionListenerFactory.create(session);
-        request.setExecutionListener(executionListener);
+    public void init(Context context) throws Exception {
+        super.init(context);
+    }
+
+    @Override
+    public void onEvent(Object event) throws Exception {
+        super.onEvent(event);
+    }
+
+    @Override
+    public void close() throws Exception {
+        super.close();
     }
 }
-
