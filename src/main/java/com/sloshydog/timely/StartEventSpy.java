@@ -15,25 +15,20 @@
  */
 package com.sloshydog.timely;
 
-import org.apache.maven.AbstractMavenLifecycleParticipant;
-import org.apache.maven.eventspy.AbstractEventSpy;
+import org.apache.maven.eventspy.EventSpy;
+import org.apache.maven.execution.ExecutionEvent;
 import org.codehaus.plexus.component.annotations.Component;
 
-@Component(role = AbstractMavenLifecycleParticipant.class, hint = "timelybuild")
-public class TimelyBuildEventSpy extends AbstractEventSpy {
+import static org.apache.maven.execution.ExecutionEvent.Type.MojoStarted;
 
-    @Override
-    public void init(Context context) throws Exception {
-        super.init(context);
+@Component(role = EventSpy.class, hint = "starteventspy")
+public class StartEventSpy extends AbstractTimelyEventSpy {
+    public StartEventSpy() {
+        super(MojoStarted);
     }
 
     @Override
-    public void onEvent(Object event) throws Exception {
-        super.onEvent(event);
-    }
-
-    @Override
-    public void close() throws Exception {
-        super.close();
+    protected void doOnEvent(ExecutionEvent event) {
+        getEventRecorder().startEvent(event);
     }
 }
