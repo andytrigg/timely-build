@@ -74,7 +74,7 @@ public class BuildEventListener extends AbstractExecutionListener {
 
     private String key(ExecutionEvent event) {
         MojoExecution mojo = event.getMojoExecution();
-        String goal = mojo.getGoal();
+        String goal = mojo.getGoal() + "-" + mavenSession.getGoals();
         String phase = mojo.getLifecyclePhase();
         String group = event.getProject().getGroupId();
         String project = event.getProject().getArtifactId();
@@ -131,8 +131,8 @@ public class BuildEventListener extends AbstractExecutionListener {
             this.measures = measures;
         }
     }
-    public static class Measure implements Comparable<Measure> {
 
+    public static class Measure implements Comparable<Measure> {
         String group;
         String project;
         String phase;
