@@ -15,11 +15,12 @@
  */
 package com.sloshydog.timely;
 
-import java.util.List;
+import java.io.Writer;
 
-public class ReportWriter {
+public class ReportWriterFactory {
 
-    public void createReportFor(List<EventRecorder.TimedEvent> timedEvents) {
-
+    public Writer createWriter() {
+        return null;
     }
+
 }

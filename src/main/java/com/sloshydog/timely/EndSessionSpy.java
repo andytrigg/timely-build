@@ -20,14 +20,12 @@ import org.apache.maven.execution.ExecutionEvent;
 import org.codehaus.plexus.component.annotations.Component;
 import org.codehaus.plexus.component.annotations.Requirement;
 
-import java.util.List;
-
 import static org.apache.maven.execution.ExecutionEvent.Type.SessionEnded;
 
 @Component(role = EventSpy.class, hint = "endsession")
 public class EndSessionSpy extends AbstractTimelyEventSpy {
     @Requirement
-    private ReportWriter reportWriter;
+    private ReportGenerator reportGenerator;
 
     public EndSessionSpy() {
         super(SessionEnded);
@@ -36,6 +34,6 @@ public class EndSessionSpy extends AbstractTimelyEventSpy {
     @Override
     protected void doOnEvent(ExecutionEvent event) {
 
-        reportWriter.createReportFor(getEventRecorder().getTimedEvents());
+        reportGenerator.createReportFor(getEventRecorder().getTimedEvents());
     }
 }
