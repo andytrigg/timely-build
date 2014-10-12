@@ -17,6 +17,9 @@ package com.sloshydog.timely;
 
 import org.apache.maven.execution.ExecutionEvent;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -30,5 +33,36 @@ public class EventRecorder {
 
     public void endEvent(ExecutionEvent event) {
         endTimes.put(new ExecutionEventKey(event), System.currentTimeMillis());
+    }
+
+    public List<TimedEvent> getTimedEvents() {
+        long buildStartTime = Collections.min(startTimes.values());
+
+        List<TimedEvent> timedEvents = new ArrayList<TimedEvent>();
+        for (ExecutionEventKey key : startTimes.keySet()) {
+            timedEvents.add(new TimedEvent(key, startTimes.get(key) - buildStartTime, endTimes.get(key) - buildStartTime));
+        }
+
+        Collections.sort(timedEvents);
+
+        return timedEvents;
+    }
+
+    private static class TimedEvent implements Comparable<TimedEvent> {
+
+        private final ExecutionEventKey eventKey;
+        private final Long startTime;
+        private final Long endTime;
+
+        public TimedEvent(ExecutionEventKey eventKey, long startTime, long endTime) {
+            this.eventKey = eventKey;
+            this.startTime = startTime;
+            this.endTime = endTime;
+        }
+
+        @Override
+        public int compareTo(TimedEvent other) {
+            return startTime.compareTo(other.startTime);
+        }
     }
 }
