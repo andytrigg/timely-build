@@ -15,21 +15,11 @@
  */
 package com.sloshydog.timely;
 
-import org.apache.maven.eventspy.EventSpy;
-import org.apache.maven.execution.ExecutionEvent;
-import org.codehaus.plexus.component.annotations.Component;
+import java.util.List;
 
-import static org.apache.maven.execution.ExecutionEvent.Type.SessionEnded;
+public class ReportWriter {
 
-@Component(role = EventSpy.class, hint = "reporteventspy")
-public class ReportEventSpy extends AbstractTimelyEventSpy {
-
-    public ReportEventSpy() {
-        super(SessionEnded);
-    }
-
-    @Override
-    protected void doOnEvent(ExecutionEvent event) {
+    public void createReportFor(List<EventRecorder.TimedEvent> timedEvents) {
 
     }
 }

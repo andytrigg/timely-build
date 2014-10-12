@@ -48,7 +48,7 @@ public class EventRecorder {
         return timedEvents;
     }
 
-    private static class TimedEvent implements Comparable<TimedEvent> {
+    public static class TimedEvent implements Comparable<TimedEvent> {
 
         private final ExecutionEventKey eventKey;
         private final Long startTime;
