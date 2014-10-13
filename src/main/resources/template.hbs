@@ -25,11 +25,11 @@ function drawChart() {
 
   dataTable.addRows([
 {{#each .}}
-    ['{{project}}', 'phase:{{phase}} goal:{{goal}}', new Date({{start}}), new Date({{end}}) ],{{/each}}
+    ['{{project}}', 'phase:{{phase}} goal:{{goal}}', new Date({{startTime}}), new Date({{endTime}}) ],{{/each}}
   ]);
 
   var options = {
-    timeline: { groupByRowLabel: trie }
+    timeline: { groupByRowLabel: true }
   };
 
   chart.draw(dataTable, options);

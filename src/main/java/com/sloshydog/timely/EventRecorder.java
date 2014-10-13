@@ -52,12 +52,18 @@ public class EventRecorder {
 
     public static class TimedEvent implements Comparable<TimedEvent> {
 
-        private final ExecutionEventKey eventKey;
-        private final Long startTime;
-        private final Long endTime;
+        String group;
+        String goal;
+        String phase;
+        String project;
+        Long startTime;
+        Long endTime;
 
         public TimedEvent(ExecutionEventKey eventKey, long startTime, long endTime) {
-            this.eventKey = eventKey;
+            this.group = eventKey.getGroup();
+            this.goal = eventKey.getGoal();
+            this.phase = eventKey.getPhase();
+            this.project = eventKey.getProject();
             this.startTime = startTime;
             this.endTime = endTime;
         }

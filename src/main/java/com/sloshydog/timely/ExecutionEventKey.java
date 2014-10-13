@@ -35,6 +35,22 @@ public class ExecutionEventKey {
         goal = mojo.getGoal();
     }
 
+    public String getGroup() {
+        return group;
+    }
+
+    public String getProject() {
+        return project;
+    }
+
+    public String getPhase() {
+        return phase;
+    }
+
+    public String getGoal() {
+        return goal;
+    }
+
     @Override
     public int hashCode() {
         return reflectionHashCode(this);
