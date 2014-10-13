@@ -18,6 +18,7 @@ package com.sloshydog.timely;
 import com.github.jknack.handlebars.Context;
 import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.context.FieldValueResolver;
+import org.apache.commons.io.IOUtils;
 import org.codehaus.plexus.component.annotations.Component;
 import org.codehaus.plexus.component.annotations.Requirement;
 
@@ -40,9 +41,7 @@ public class HandlebarReportGenerator implements ReportGenerator {
         } catch (IOException e) {
 
         } finally {
-            if (writer != null) {
-                writer.close();
-            }
+            IOUtils.closeQuietly(writer);
         }
     }
 }
