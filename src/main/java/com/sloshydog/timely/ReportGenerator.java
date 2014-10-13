@@ -15,9 +15,11 @@
  */
 package com.sloshydog.timely;
 
+import org.apache.maven.execution.MavenSession;
+
 import java.util.List;
 
 public interface ReportGenerator {
 
-    void createReportFor(List<EventRecorder.TimedEvent> timedEvents);
+    void createReportFor(MavenSession mavenSession, List<EventRecorder.TimedEvent> timedEvents);
 }

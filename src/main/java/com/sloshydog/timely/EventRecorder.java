@@ -16,6 +16,7 @@
 package com.sloshydog.timely;
 
 import org.apache.maven.execution.ExecutionEvent;
+import org.codehaus.plexus.component.annotations.Component;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Component(role = EventRecorder.class)
 public class EventRecorder {
     private final Map<ExecutionEventKey, Long> startTimes = new ConcurrentHashMap<ExecutionEventKey, Long>();
     private final Map<ExecutionEventKey, Long> endTimes = new ConcurrentHashMap<ExecutionEventKey, Long>();

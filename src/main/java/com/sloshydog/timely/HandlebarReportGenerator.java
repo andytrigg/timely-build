@@ -19,6 +19,7 @@ import com.github.jknack.handlebars.Context;
 import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.context.FieldValueResolver;
 import org.apache.commons.io.IOUtils;
+import org.apache.maven.execution.MavenSession;
 import org.codehaus.plexus.component.annotations.Component;
 import org.codehaus.plexus.component.annotations.Requirement;
 
@@ -32,13 +33,15 @@ public class HandlebarReportGenerator implements ReportGenerator {
     @Requirement
     private ReportWriterFactory reportWriterFactory;
 
-    public void createReportFor(List<EventRecorder.TimedEvent> timedEvents) {
+    public void createReportFor(MavenSession mavenSession, List<EventRecorder.TimedEvent> timedEvents) {
         Writer writer = null;
         try {
-            writer = reportWriterFactory.createWriter();
+            writer = reportWriterFactory.createWriter(mavenSession);
             String html = new Handlebars().compile("template").apply(Context.newBuilder(timedEvents).resolver(FieldValueResolver.INSTANCE).build());
+
             writer.write(html);
         } catch (IOException e) {
+            throw new RuntimeException("Unable to generate report for Timely.", e);
 
         } finally {
             IOUtils.closeQuietly(writer);

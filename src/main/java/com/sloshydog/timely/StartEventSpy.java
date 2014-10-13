@@ -29,6 +29,7 @@ public class StartEventSpy extends AbstractTimelyEventSpy {
 
     @Override
     protected void doOnEvent(ExecutionEvent event) {
+        System.out.println("*****************Start");
         getEventRecorder().startEvent(event);
     }
 }
