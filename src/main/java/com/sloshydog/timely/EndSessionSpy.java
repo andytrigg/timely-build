@@ -34,6 +34,10 @@ public class EndSessionSpy extends AbstractTimelyEventSpy {
     @Override
     protected void doOnEvent(ExecutionEvent event) {
 
-        reportGenerator.createReportFor(event.getSession(), getEventRecorder().getTimedEvents());
+        getReportGenerator().createReportFor(event.getSession(), getEventRecorder().getTimedEvents());
+    }
+
+    ReportGenerator getReportGenerator() {
+        return reportGenerator;
     }
 }
