@@ -41,4 +41,18 @@ public class ExecutionEventKeyTest {
         assertThat(new ExecutionEventKey(event).getGoal()).isEqualTo("goal");
     }
 
+    @Test
+    public void shouldBeAbleToGetGroupFromExecutionEventKey() {
+        when(mavenProject.getGroupId()).thenReturn("group");
+
+        assertThat(new ExecutionEventKey(event).getGroup()).isEqualTo("group");
+    }
+
+    @Test
+    public void shouldBeAbleToGetProjectFromExecutionEventKey() {
+        when(mavenProject.getArtifactId()).thenReturn("project");
+
+        assertThat(new ExecutionEventKey(event).getProject()).isEqualTo("project");
+    }
+
 }
