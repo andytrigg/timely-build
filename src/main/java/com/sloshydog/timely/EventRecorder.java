@@ -17,6 +17,7 @@ package com.sloshydog.timely;
 
 import org.apache.maven.execution.ExecutionEvent;
 import org.codehaus.plexus.component.annotations.Component;
+import org.codehaus.plexus.component.annotations.Requirement;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,17 +25,35 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static java.lang.String.format;
+import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
+import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCode;
+import static org.apache.commons.lang3.builder.ToStringBuilder.reflectionToString;
+
 @Component(role = EventRecorder.class)
 public class EventRecorder {
+    @Requirement
+    private TimeSource timeSource;
+    @Requirement
+    private ExecutionEventKeyFactory executionEventKeyFactory;
+
     private final Map<ExecutionEventKey, Long> startTimes = new ConcurrentHashMap<ExecutionEventKey, Long>();
     private final Map<ExecutionEventKey, Long> endTimes = new ConcurrentHashMap<ExecutionEventKey, Long>();
 
     public void startEvent(ExecutionEvent event) {
-        startTimes.put(new ExecutionEventKey(event), System.currentTimeMillis());
+        startTimes.put(getExecutionEventKeyFactory().create(event), getTimeSource().currentSystemTime());
     }
 
     public void endEvent(ExecutionEvent event) {
-        endTimes.put(new ExecutionEventKey(event), System.currentTimeMillis());
+        endTimes.put(getExecutionEventKeyFactory().create(event), getTimeSource().currentSystemTime());
+    }
+
+    TimeSource getTimeSource() {
+        return timeSource;
+    }
+
+    ExecutionEventKeyFactory getExecutionEventKeyFactory() {
+        return executionEventKeyFactory;
     }
 
     public List<TimedEvent> getTimedEvents() {
@@ -42,6 +61,9 @@ public class EventRecorder {
 
         List<TimedEvent> timedEvents = new ArrayList<TimedEvent>();
         for (ExecutionEventKey key : startTimes.keySet()) {
+            if (!endTimes.containsKey(key)) {
+                throw new IllegalStateException(format("No end time recorded for event '%s'", key.toString()));
+            }
             timedEvents.add(new TimedEvent(key, startTimes.get(key) - buildStartTime, endTimes.get(key) - buildStartTime));
         }
 
@@ -66,6 +88,21 @@ public class EventRecorder {
             this.project = eventKey.getProject();
             this.startTime = startTime;
             this.endTime = endTime;
+        }
+
+        @Override
+        public int hashCode() {
+            return reflectionHashCode(this);
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            return reflectionEquals(this, obj);
+        }
+
+        @Override
+        public String toString() {
+            return reflectionToString(this);
         }
 
         @Override

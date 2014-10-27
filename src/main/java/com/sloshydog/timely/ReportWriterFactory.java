@@ -18,6 +18,7 @@ package com.sloshydog.timely;
 import org.apache.commons.io.FileUtils;
 import org.apache.maven.execution.MavenSession;
 import org.codehaus.plexus.component.annotations.Component;
+import org.codehaus.plexus.component.annotations.Requirement;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -27,13 +28,16 @@ import java.io.Writer;
 @Component(role = ReportWriterFactory.class)
 public class ReportWriterFactory {
 
+    @Requirement
+    private TimeSource timeSource;
+
     private static final String OUTPUT_DIR = "timelybuild.output.directory";
     private static final String DEFAULT_DIR = "target";
     private static final String FILENAME = "timelybuild-%d.html";
 
     public Writer createWriter(MavenSession mavenSession) throws IOException {
 
-        File reportFile = FileUtils.getFile(mavenSession.getUserProperties().getProperty(OUTPUT_DIR, DEFAULT_DIR), String.format(FILENAME, System.currentTimeMillis()));
+        File reportFile = FileUtils.getFile(mavenSession.getUserProperties().getProperty(OUTPUT_DIR, DEFAULT_DIR), String.format(FILENAME, getTimeSource().currentSystemTime()));
         File path = reportFile.getParentFile();
         if (!path.exists()) {
             if (!path.mkdirs()) {
@@ -43,4 +47,7 @@ public class ReportWriterFactory {
         return new FileWriter(reportFile);
     }
 
+    private TimeSource getTimeSource() {
+        return timeSource;
+    }
 }

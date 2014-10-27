@@ -15,20 +15,12 @@
  */
 package com.sloshydog.timely;
 
-import org.apache.maven.eventspy.EventSpy;
-import org.apache.maven.execution.ExecutionEvent;
 import org.codehaus.plexus.component.annotations.Component;
 
-import static org.apache.maven.execution.ExecutionEvent.Type.MojoStarted;
+@Component(role = TimeSource.class)
+public class TimeSource {
 
-@Component(role = EventSpy.class, hint = "starteventspy")
-public class StartEventSpy extends AbstractTimelyEventSpy {
-    public StartEventSpy() {
-        super(MojoStarted);
-    }
-
-    @Override
-    protected void doOnEvent(ExecutionEvent event) {
-        getEventRecorder().startEvent(event);
+    public long currentSystemTime() {
+        return System.currentTimeMillis();
     }
 }

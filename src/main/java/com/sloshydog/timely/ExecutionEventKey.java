@@ -16,10 +16,10 @@
 package com.sloshydog.timely;
 
 import org.apache.maven.execution.ExecutionEvent;
-import org.apache.maven.plugin.MojoExecution;
 
 import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
 import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCode;
+import static org.apache.commons.lang3.builder.ToStringBuilder.reflectionToString;
 
 public class ExecutionEventKey {
     private final String group;
@@ -30,9 +30,8 @@ public class ExecutionEventKey {
     public ExecutionEventKey(ExecutionEvent event) {
         group = event.getProject().getGroupId();
         project = event.getProject().getArtifactId();
-        MojoExecution mojo = event.getMojoExecution();
-        phase = mojo.getLifecyclePhase();
-        goal = mojo.getGoal();
+        phase = event.getMojoExecution().getLifecyclePhase();
+        goal = event.getMojoExecution().getGoal();
     }
 
     public String getGroup() {
@@ -59,5 +58,10 @@ public class ExecutionEventKey {
     @Override
     public boolean equals(Object obj) {
         return reflectionEquals(this, obj);
+    }
+
+    @Override
+    public String toString() {
+        return reflectionToString(this);
     }
 }
