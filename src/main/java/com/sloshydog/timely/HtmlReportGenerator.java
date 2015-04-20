@@ -15,9 +15,6 @@
  */
 package com.sloshydog.timely;
 
-import com.github.jknack.handlebars.Context;
-import com.github.jknack.handlebars.Handlebars;
-import com.github.jknack.handlebars.context.FieldValueResolver;
 import org.apache.commons.io.IOUtils;
 import org.apache.maven.execution.MavenSession;
 import org.codehaus.plexus.component.annotations.Component;
@@ -28,23 +25,31 @@ import java.io.Writer;
 import java.util.List;
 
 @Component(role = ReportGenerator.class)
-public class HandlebarReportGenerator implements ReportGenerator {
+public class HtmlReportGenerator implements ReportGenerator {
 
     @Requirement
     private ReportWriterFactory reportWriterFactory;
+    @Requirement
+    private HtmlFactory  HtmlFactory;
 
     public void createReportFor(MavenSession mavenSession, List<EventRecorder.TimedEvent> timedEvents) {
         Writer writer = null;
         try {
-            writer = reportWriterFactory.createWriter(mavenSession);
-            String html = new Handlebars().compile("template").apply(Context.newBuilder(timedEvents).resolver(FieldValueResolver.INSTANCE).build());
-
-            writer.write(html);
+            writer = getReportWriterFactory().createWriter(mavenSession);
+            writer.write(getHtmlFactory().build(timedEvents));
         } catch (IOException e) {
             throw new RuntimeException("Unable to generate report for Timely.", e);
 
         } finally {
             IOUtils.closeQuietly(writer);
         }
+    }
+
+    ReportWriterFactory getReportWriterFactory() {
+        return reportWriterFactory;
+    }
+
+    HtmlFactory getHtmlFactory() {
+        return HtmlFactory;
     }
 }

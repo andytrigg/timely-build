@@ -18,11 +18,15 @@ package com.sloshydog.timely;
 import org.apache.maven.eventspy.EventSpy;
 import org.apache.maven.execution.ExecutionEvent;
 import org.codehaus.plexus.component.annotations.Component;
+import org.codehaus.plexus.component.annotations.Requirement;
 
 import static org.apache.maven.execution.ExecutionEvent.Type.MojoStarted;
 
 @Component(role = EventSpy.class, hint = "starteventspy")
 public class StartEventSpy extends AbstractTimelyEventSpy {
+    @Requirement
+    private EventRecorder eventRecorder;
+
     public StartEventSpy() {
         super(MojoStarted);
     }
@@ -30,5 +34,9 @@ public class StartEventSpy extends AbstractTimelyEventSpy {
     @Override
     protected void doOnEvent(ExecutionEvent event) {
         getEventRecorder().startEvent(event);
+    }
+
+    EventRecorder getEventRecorder() {
+        return eventRecorder;
     }
 }

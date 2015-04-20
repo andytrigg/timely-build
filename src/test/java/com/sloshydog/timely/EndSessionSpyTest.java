@@ -52,18 +52,18 @@ public class EndSessionSpyTest {
     public void shouldGenerateAReportForAllSpiedEvents() throws Exception {
         List<ExecutionEvent.Type> spiedEventTypes = asList(spiedEvents);
 
-        EndSessionSpy EndSessionSpy = spy(new EndSessionSpy());
+        EndSessionSpy endSessionSpy = spy(new EndSessionSpy());
         EventRecorder eventRecorder = mock(EventRecorder.class);
         ReportGenerator reportGenerator = mock(ReportGenerator.class);
-        doReturn(eventRecorder).when(EndSessionSpy).getEventRecorder();
-        doReturn(reportGenerator).when(EndSessionSpy).getReportGenerator();
+        doReturn(eventRecorder).when(endSessionSpy).getEventRecorder();
+        doReturn(reportGenerator).when(endSessionSpy).getReportGenerator();
         List<EventRecorder.TimedEvent> timedEvents = new ArrayList<EventRecorder.TimedEvent>();
         when(eventRecorder.getTimedEvents()).thenReturn(timedEvents);
 
         for (ExecutionEvent.Type eventTypeToBeSpied : spiedEventTypes) {
             MavenSession mavenSession = mock(MavenSession.class);
             ExecutionEvent eventToBeSpied = mockEventFor(mavenSession, eventTypeToBeSpied);
-            EndSessionSpy.onEvent(eventToBeSpied);
+            endSessionSpy.onEvent(eventToBeSpied);
 
             verify(reportGenerator).createReportFor(mavenSession, timedEvents);;
         }
@@ -74,15 +74,15 @@ public class EndSessionSpyTest {
         List<ExecutionEvent.Type> eventsIgnoredBySpy = new ArrayList(asList(ExecutionEvent.Type.values()));
         eventsIgnoredBySpy.removeAll(asList(spiedEvents));
 
-        EndSessionSpy EndSessionSpy = spy(new EndSessionSpy());
+        EndSessionSpy endSessionSpy = spy(new EndSessionSpy());
         EventRecorder eventRecorder = mock(EventRecorder.class);
         ReportGenerator reportGenerator = mock(ReportGenerator.class);
-        doReturn(eventRecorder).when(EndSessionSpy).getEventRecorder();
-        doReturn(reportGenerator).when(EndSessionSpy).getReportGenerator();
+        doReturn(eventRecorder).when(endSessionSpy).getEventRecorder();
+        doReturn(reportGenerator).when(endSessionSpy).getReportGenerator();
 
         for (ExecutionEvent.Type eventTypeIgnored : eventsIgnoredBySpy) {
             ExecutionEvent eventToBeIgnored = mockEventFor(mock(MavenSession.class), eventTypeIgnored);
-            EndSessionSpy.onEvent(eventToBeIgnored);
+            endSessionSpy.onEvent(eventToBeIgnored);
         }
 
         verifyZeroInteractions(eventRecorder, reportGenerator);

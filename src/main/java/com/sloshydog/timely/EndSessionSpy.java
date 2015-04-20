@@ -25,6 +25,8 @@ import static org.apache.maven.execution.ExecutionEvent.Type.SessionEnded;
 @Component(role = EventSpy.class, hint = "endsession")
 public class EndSessionSpy extends AbstractTimelyEventSpy {
     @Requirement
+    private EventRecorder eventRecorder;
+    @Requirement
     private ReportGenerator reportGenerator;
 
     public EndSessionSpy() {
@@ -39,5 +41,9 @@ public class EndSessionSpy extends AbstractTimelyEventSpy {
 
     ReportGenerator getReportGenerator() {
         return reportGenerator;
+    }
+
+    EventRecorder getEventRecorder() {
+        return eventRecorder;
     }
 }

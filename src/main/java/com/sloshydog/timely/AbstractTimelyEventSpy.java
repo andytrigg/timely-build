@@ -43,8 +43,4 @@ public abstract class AbstractTimelyEventSpy extends AbstractEventSpy {
     }
 
     protected abstract void doOnEvent(ExecutionEvent event);
-
-    protected EventRecorder getEventRecorder() {
-        return eventRecorder;
-    }
 }
