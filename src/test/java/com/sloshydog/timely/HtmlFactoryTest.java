@@ -30,7 +30,7 @@ import static org.mockito.Mockito.when;
  */
 public class HtmlFactoryTest {
 
-    public static final String EXPECTED_HTML_RESULT = "1<!DOCTYPE html>\n" +
+    public static final String EXPECTED_HTML_RESULT = "<!DOCTYPE html>\n" +
             "<html lang=\"en\">\n" +
             "<head>\n" +
             "\n" +
